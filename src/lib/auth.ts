@@ -5,6 +5,9 @@ import * as schema from "@/db/schema";
 import { db } from "@/db/db";
 import { resend } from "@/email/resend";
 import { ResetPasswordEmailTemplate } from "@/email/email-template";
+import { nextCookies } from "better-auth/next-js"
+
+
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     schema: schema,
@@ -33,6 +36,10 @@ export const auth = betterAuth({
       })
     },
   },
+  session : {
+    expiresIn : 30 * 24 * 60 * 60,
+    
+  },  
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
@@ -41,6 +48,10 @@ export const auth = betterAuth({
     },
      
   },
+  plugins : [
+    nextCookies()
+  ],
+
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -50,6 +61,7 @@ export const auth = betterAuth({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     },
+
   },
   secret: process.env.BETTER_AUTH_SECRET!,
   baseURL: process.env.BETTER_AUTH_URL!,  

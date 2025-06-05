@@ -1,9 +1,9 @@
 import {
   Outlet,
+  HeadContent,
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import appCss from "../styles.css?url";
 
@@ -61,6 +61,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
   return (
     <html lang="en" className={theme}>
+    <head>
+      <HeadContent />
+    </head>
       <body>
         {children}
         <Toaster

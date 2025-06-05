@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { signOut } from '@/lib/auth-client'
 import { getUserId } from '@/server/auth'
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect, useRouter  } from '@tanstack/react-router'
+import { useEffect } from 'react'
 
 export const Route = createFileRoute('/(dashboard)/_layout/dashboard')({
   component: RouteComponent,
@@ -20,10 +22,25 @@ export const Route = createFileRoute('/(dashboard)/_layout/dashboard')({
     }
   }
 })
-
 function RouteComponent() {
-  const {userId} = Route.useLoaderData();
   const router = useRouter()
+  const { data: userId, error } = useQuery({
+    queryKey: ['session'],
+    queryFn: getUserId,
+    refetchInterval: 5000,
+  })
+
+  useEffect(() => {
+    if (!userId && userId !== undefined) {
+      router.navigate({ to: '/sign-in' })
+    }
+  }, [userId, router])
+
+  useEffect(() => {
+    if (error) {
+      router.navigate({ to: '/sign-in' })
+    }
+  }, [error, router])
   return <div>
     <p>userId : {userId}</p>
     <Button
