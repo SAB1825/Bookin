@@ -23,7 +23,7 @@ import {
   useSidebar,
 } from "@/components/ui/side-bar"
 import { signOut } from "@/lib/auth-client";
-import { DotSquare, EllipsisVertical, FoldVerticalIcon, LogOut, MenuIcon, StoreIcon, UserCircle } from "lucide-react";
+import {  EllipsisVertical, LogOut, StoreIcon, UserCircle } from "lucide-react";
 
 export function NavUser({
   userName,

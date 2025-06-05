@@ -17,12 +17,13 @@ import { Route as IndexImport } from './routes/index'
 import { Route as onboardingOnboardingImport } from './routes/(onboarding)/onboarding'
 import { Route as dashboardLayoutImport } from './routes/(dashboard)/_layout'
 import { Route as authLayoutImport } from './routes/(auth)/_layout'
-import { Route as dashboardLayoutDashboardImport } from './routes/(dashboard)/_layout/dashboard'
 import { Route as authLayoutVerifyEmailImport } from './routes/(auth)/_layout/verify-email'
 import { Route as authLayoutSignUpImport } from './routes/(auth)/_layout/sign-up'
 import { Route as authLayoutSignInImport } from './routes/(auth)/_layout/sign-in'
 import { Route as authLayoutResetPasswordImport } from './routes/(auth)/_layout/reset-password'
 import { Route as authLayoutForgetPasswordImport } from './routes/(auth)/_layout/forget-password'
+import { Route as dashboardLayoutDashboardIndexImport } from './routes/(dashboard)/_layout/dashboard/index'
+import { Route as dashboardLayoutDashboardProductsIndexImport } from './routes/(dashboard)/_layout/dashboard/products/index'
 
 // Create Virtual Routes
 
@@ -63,12 +64,6 @@ const authLayoutRoute = authLayoutImport.update({
   getParentRoute: () => authRoute,
 } as any)
 
-const dashboardLayoutDashboardRoute = dashboardLayoutDashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => dashboardLayoutRoute,
-} as any)
-
 const authLayoutVerifyEmailRoute = authLayoutVerifyEmailImport.update({
   id: '/verify-email',
   path: '/verify-email',
@@ -98,6 +93,20 @@ const authLayoutForgetPasswordRoute = authLayoutForgetPasswordImport.update({
   path: '/forget-password',
   getParentRoute: () => authLayoutRoute,
 } as any)
+
+const dashboardLayoutDashboardIndexRoute =
+  dashboardLayoutDashboardIndexImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => dashboardLayoutRoute,
+  } as any)
+
+const dashboardLayoutDashboardProductsIndexRoute =
+  dashboardLayoutDashboardProductsIndexImport.update({
+    id: '/dashboard/products/',
+    path: '/dashboard/products/',
+    getParentRoute: () => dashboardLayoutRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -180,11 +189,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutVerifyEmailImport
       parentRoute: typeof authLayoutImport
     }
-    '/(dashboard)/_layout/dashboard': {
-      id: '/(dashboard)/_layout/dashboard'
+    '/(dashboard)/_layout/dashboard/': {
+      id: '/(dashboard)/_layout/dashboard/'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof dashboardLayoutDashboardImport
+      preLoaderRoute: typeof dashboardLayoutDashboardIndexImport
+      parentRoute: typeof dashboardLayoutImport
+    }
+    '/(dashboard)/_layout/dashboard/products/': {
+      id: '/(dashboard)/_layout/dashboard/products/'
+      path: '/dashboard/products'
+      fullPath: '/dashboard/products'
+      preLoaderRoute: typeof dashboardLayoutDashboardProductsIndexImport
       parentRoute: typeof dashboardLayoutImport
     }
   }
@@ -223,11 +239,14 @@ const authRouteChildren: authRouteChildren = {
 const authRouteWithChildren = authRoute._addFileChildren(authRouteChildren)
 
 interface dashboardLayoutRouteChildren {
-  dashboardLayoutDashboardRoute: typeof dashboardLayoutDashboardRoute
+  dashboardLayoutDashboardIndexRoute: typeof dashboardLayoutDashboardIndexRoute
+  dashboardLayoutDashboardProductsIndexRoute: typeof dashboardLayoutDashboardProductsIndexRoute
 }
 
 const dashboardLayoutRouteChildren: dashboardLayoutRouteChildren = {
-  dashboardLayoutDashboardRoute: dashboardLayoutDashboardRoute,
+  dashboardLayoutDashboardIndexRoute: dashboardLayoutDashboardIndexRoute,
+  dashboardLayoutDashboardProductsIndexRoute:
+    dashboardLayoutDashboardProductsIndexRoute,
 }
 
 const dashboardLayoutRouteWithChildren = dashboardLayoutRoute._addFileChildren(
@@ -254,7 +273,8 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof authLayoutSignInRoute
   '/sign-up': typeof authLayoutSignUpRoute
   '/verify-email': typeof authLayoutVerifyEmailRoute
-  '/dashboard': typeof dashboardLayoutDashboardRoute
+  '/dashboard': typeof dashboardLayoutDashboardIndexRoute
+  '/dashboard/products': typeof dashboardLayoutDashboardProductsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -265,7 +285,8 @@ export interface FileRoutesByTo {
   '/sign-in': typeof authLayoutSignInRoute
   '/sign-up': typeof authLayoutSignUpRoute
   '/verify-email': typeof authLayoutVerifyEmailRoute
-  '/dashboard': typeof dashboardLayoutDashboardRoute
+  '/dashboard': typeof dashboardLayoutDashboardIndexRoute
+  '/dashboard/products': typeof dashboardLayoutDashboardProductsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -281,7 +302,8 @@ export interface FileRoutesById {
   '/(auth)/_layout/sign-in': typeof authLayoutSignInRoute
   '/(auth)/_layout/sign-up': typeof authLayoutSignUpRoute
   '/(auth)/_layout/verify-email': typeof authLayoutVerifyEmailRoute
-  '/(dashboard)/_layout/dashboard': typeof dashboardLayoutDashboardRoute
+  '/(dashboard)/_layout/dashboard/': typeof dashboardLayoutDashboardIndexRoute
+  '/(dashboard)/_layout/dashboard/products/': typeof dashboardLayoutDashboardProductsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -295,6 +317,7 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/verify-email'
     | '/dashboard'
+    | '/dashboard/products'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -305,6 +328,7 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/verify-email'
     | '/dashboard'
+    | '/dashboard/products'
   id:
     | '__root__'
     | '/'
@@ -318,7 +342,8 @@ export interface FileRouteTypes {
     | '/(auth)/_layout/sign-in'
     | '/(auth)/_layout/sign-up'
     | '/(auth)/_layout/verify-email'
-    | '/(dashboard)/_layout/dashboard'
+    | '/(dashboard)/_layout/dashboard/'
+    | '/(dashboard)/_layout/dashboard/products/'
   fileRoutesById: FileRoutesById
 }
 
@@ -382,7 +407,8 @@ export const routeTree = rootRoute
       "filePath": "(dashboard)/_layout.tsx",
       "parent": "/(dashboard)",
       "children": [
-        "/(dashboard)/_layout/dashboard"
+        "/(dashboard)/_layout/dashboard/",
+        "/(dashboard)/_layout/dashboard/products/"
       ]
     },
     "/(onboarding)/onboarding": {
@@ -408,8 +434,12 @@ export const routeTree = rootRoute
       "filePath": "(auth)/_layout/verify-email.tsx",
       "parent": "/(auth)/_layout"
     },
-    "/(dashboard)/_layout/dashboard": {
-      "filePath": "(dashboard)/_layout/dashboard.tsx",
+    "/(dashboard)/_layout/dashboard/": {
+      "filePath": "(dashboard)/_layout/dashboard/index.tsx",
+      "parent": "/(dashboard)/_layout"
+    },
+    "/(dashboard)/_layout/dashboard/products/": {
+      "filePath": "(dashboard)/_layout/dashboard/products/index.tsx",
       "parent": "/(dashboard)/_layout"
     }
   }

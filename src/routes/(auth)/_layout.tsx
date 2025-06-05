@@ -1,3 +1,4 @@
+import { useTheme } from "@/components/theme-provider";
 import { isAuthenticated } from "@/server/auth";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
@@ -12,27 +13,28 @@ export const Route = createFileRoute("/(auth)/_layout")({
 });
 
 function RouteComponent() {
+  const { isDarkOnly } = useTheme();
   return (
     <div className="min-h-screen overflow-hidden">
       <div className="flex flex-col lg:flex-row min-h-screen">
         {/* Authentication Side */}
         <div className="flex-1 lg:flex-[1.5] flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8 relative order-2 lg:order-1">
           {/* Subtle background pattern for mobile */}
-          <div className="absolute inset-0 bg-gray-50/50 lg:bg-transparent"></div>
+          <div className="absolute inset-0  "></div>
 
           <div className="w-full max-w-md relative z-10">
             {/* Logo/Brand for mobile and tablet */}
             <div className="lg:hidden text-center mb-6 sm:mb-8">
               <h1 className="text-2xl sm:text-3xl font-bold bg-primary bg-clip-text text-transparent">
-                DevSell
+                Bookin
               </h1>
-              <p className="text-slate-600 mt-2 text-sm sm:text-base">
+              <p className="mt-2 text-sm sm:text-base">
                 Where great things happen
               </p>
             </div>
 
             {/* Auth form container */}
-            <div className="bg-white lg:bg-transparent rounded-lg lg:rounded-none shadow-sm lg:shadow-none p-6 sm:p-8 lg:p-0">
+            <div className="lg:bg-transparent  lg:shadow-none p-6 sm:p-8 lg:p-0">
               <Outlet />
             </div>
           </div>
@@ -51,7 +53,7 @@ function RouteComponent() {
             {/* Brand Name - hidden on mobile, shown on larger screens */}
             <div className="hidden lg:block mb-8">
               <h1 className="text-3xl font-bold text-white tracking-tight">
-                DevSell
+                Bookin
               </h1>
               <div className="w-12 h-1 bg-white/30 rounded-full mt-2 mx-auto"></div>
             </div>
@@ -67,8 +69,7 @@ function RouteComponent() {
               </h2>
 
               <p className="text-blue-100 text-sm sm:text-base lg:text-base xl:text-lg max-w-xs sm:max-w-sm lg:max-w-md mx-auto leading-relaxed px-2 sm:px-0">
-                Join thousands of developers building amazing products and
-                growing their careers
+                Schedule your meeting within minutes!
               </p>
             </div>
 
@@ -78,9 +79,9 @@ function RouteComponent() {
                 {/* Glow effect behind image */}
                 <div className="absolute inset-0 bg-white/20 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl scale-105 sm:scale-110"></div>
                 <img
-                  src="/auth.png"
+                  src="/auth-image.png"
                   alt="Authentication illustration"
-                  className="relative w-full h-auto max-h-48 sm:max-h-56 lg:max-h-72 xl:max-h-80 object-contain drop-shadow-xl sm:drop-shadow-2xl"
+                  className="relative w-150 h-auto max-h-48 sm:max-h-56 lg:max-h-72 xl:max-h-80 object-contain drop-shadow-xl sm:drop-shadow-2xl"
                 />
               </div>
             </div>

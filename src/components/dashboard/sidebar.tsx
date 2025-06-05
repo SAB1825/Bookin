@@ -21,14 +21,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/side-bar";
-import { NavUser } from "../ui/nav-user";
+import { NavUser } from "./nav-user";
 
 // Menu items
 const menuItems = [
   {
     title: "Home",
     icon: Home,
-    url: "#",
+    url: "/dashboard",
   },
   {
     title: "Products",
@@ -60,7 +60,6 @@ const menuItems = [
 export function AppSidebar({
   userName,
   userEmail,
-  userAvatar,
 }: {
   userName: string;
   userEmail: string;

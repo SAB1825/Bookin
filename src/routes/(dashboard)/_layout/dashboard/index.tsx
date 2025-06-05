@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect, useRouter  } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
-export const Route = createFileRoute('/(dashboard)/_layout/dashboard')({
+export const Route = createFileRoute('/(dashboard)/_layout/dashboard/')({
   component: RouteComponent,
   beforeLoad : async () => {
     const userId = await getUserId();

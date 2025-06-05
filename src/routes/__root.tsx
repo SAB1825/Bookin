@@ -44,13 +44,16 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   }),
 
   component: RootComponent,
-   loader: () => getThemeServerFn(),
+  loader: async () => {
+    const theme = await getThemeServerFn();
+    return { theme };
+  },
 });
 
 function RootComponent() {
-  const data = Route.useLoaderData();
+  const {theme} = Route.useLoaderData();
   return (
-    <ThemeProvider theme={data}>
+    <ThemeProvider theme={theme}>
       <RootDocument>
         <Outlet />
       </RootDocument>
